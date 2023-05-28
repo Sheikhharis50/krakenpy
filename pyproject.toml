@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "krakenpy"
+version = "0.1.0"
+description = "krakenpy is tool in which we integrate kraken crypto exchange API"
+authors = ["Sheikh Haris Zahid"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "krakenpy"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+krakenex = "^2.1.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.3.1"
+requests-mock = "^1.10.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
