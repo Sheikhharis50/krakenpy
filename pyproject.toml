@@ -8,6 +8,7 @@ readme = "README.md"
 homepage = "https://github.com/Sheikhharis50/krakenpy"
 repository = "https://github.com/Sheikhharis50/krakenpy"
 keywords = ["kraken", "kraken-api", "python", "crypto"]
+packages = [{include = "krakenpy"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
