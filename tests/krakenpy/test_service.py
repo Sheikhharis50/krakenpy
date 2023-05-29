@@ -8,8 +8,8 @@ from krakenpy.service import Kraken
 @pytest.fixture
 def service():
     return Kraken(
-        api_key=os.environ["API_KEY_KRAKEN"],
-        api_secret=os.environ["API_SEC_KRAKEN"],
+        api_key=os.environ.get("API_KEY_KRAKEN"),
+        api_secret=os.environ.get("API_SEC_KRAKEN"),
     )
 
 
