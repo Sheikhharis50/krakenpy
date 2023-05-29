@@ -1,6 +1,12 @@
 import krakenex
 
-from .payloads import AccountBalance, Payload, TradesHistory
+from .payloads import (
+    AccountBalancePayload,
+    LedgersPayload,
+    Payload,
+    TradeBalancePayload,
+    TradesHistoryPayload,
+)
 from .utils import verified
 
 
@@ -24,7 +30,13 @@ class Kraken:
         """
         return krakenex.API(key=api_key or "", secret=api_secret or "")
 
-    def _call(self, private: bool, method: str, payload: Payload | None = None):
+    def _call(
+        self,
+        private: bool,
+        method: str,
+        payload: Payload | None = None,
+        timeout: int | None = None,
+    ):
         """Calls public and private krakenAPI using krakenex package
 
         :param private: Whether API is private or public
@@ -33,6 +45,8 @@ class Kraken:
         :type method: str
         :param payload: Request payload requires by API, defaults to None
         :type payload: Payload | None, optional
+        :param timeout: Request timeout, defaults to None
+        :type timeout: int | None, optional
         :return: Response dictionary from krakenAPI
         :rtype: Response
         """
@@ -44,7 +58,7 @@ class Kraken:
         response = query[private](
             method,
             data=payload.to_dict() if payload else payload,
-            timeout=self.TIMEOUT,
+            timeout=timeout or self.TIMEOUT,
         )
         return verified(method, response=response)
 
@@ -57,23 +71,59 @@ class Kraken:
         """
         return self._call(private=False, method="SystemStatus")
 
-    def get_trades_history(self):
+    def get_trades_history(self, payload: TradesHistoryPayload | None = None):
         """
         KrakenAPI:
             [Private][Method => TradesHistory]
         description:
-            It the trades history of buy/sell.
+            It fetches the trades history of buy/sell.
         """
-        return self._call(private=True, method="TradesHistory", payload=TradesHistory())
+        return self._call(
+            private=True,
+            method="TradesHistory",
+            payload=payload or TradesHistoryPayload(),
+        )
 
-    def get_balance(self):
+    def get_ledgers(self, payload: LedgersPayload | None = None):
+        """
+        KrakenAPI:
+            [Private][Method => Ledgers]
+        description:
+            It fetches the User's ledgers which includes the following types:
+            `all`, `deposit`, `withdrawal`, `trade`, `margin`, `rollover`,
+            `credit`, `transfer`, `settled`, `staking`, and `sale`
+        """
+        return self._call(
+            private=True,
+            method="Ledgers",
+            payload=payload or LedgersPayload(),
+        )
+
+    def get_balance(self, payload: AccountBalancePayload | None = None):
         """
         KrakenAPI:
             [Private][Method => Balance]
         description:
-            It shows the account balance.
+            It fetches the account balance.
         """
-        return self._call(private=True, method="Balance", payload=AccountBalance())
+        return self._call(
+            private=True,
+            method="Balance",
+            payload=payload or AccountBalancePayload(),
+        )
+
+    def get_trade_balance(self, payload: TradeBalancePayload | None = None):
+        """
+        KrakenAPI:
+            [Private][Method => TradeBalance]
+        description:
+            It fetches the account balance.
+        """
+        return self._call(
+            private=True,
+            method="TradeBalance",
+            payload=payload or TradeBalancePayload(),
+        )
 
     def __del__(self):
         """Closes the krakenex.API session"""
