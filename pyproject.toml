@@ -7,6 +7,13 @@ license = "MIT"
 readme = "README.md"
 homepage = "https://github.com/Sheikhharis50/krakenpy"
 repository = "https://github.com/Sheikhharis50/krakenpy"
+classifiers = [
+    "Development Status :: Development",
+    "Intended Audience :: Developers",
+    "Operating System :: MacOS",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+]
 keywords = ["kraken", "kraken-api", "python", "crypto"]
 packages = [{include = "krakenpy"}]
 
