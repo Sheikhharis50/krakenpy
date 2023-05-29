@@ -3,7 +3,6 @@ name = "krakenpy"
 version = "0.1.0"
 description = "krakenpy is tool in which we integrate kraken crypto exchange API"
 authors = ["Sheikh Haris Zahid"]
-license = "MIT"
 readme = "README.md"
 homepage = "https://github.com/Sheikhharis50/krakenpy"
 repository = "https://github.com/Sheikhharis50/krakenpy"

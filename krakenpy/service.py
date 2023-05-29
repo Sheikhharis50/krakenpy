@@ -7,10 +7,12 @@ from .utils import verified
 class Kraken:
     TIMEOUT = 60  # sec
 
-    def __init__(self, api_key: str, api_secret: str) -> None:
+    def __init__(
+        self, api_key: str | None = None, api_secret: str | None = None
+    ) -> None:
         self.client = self._get_client(api_key, api_secret)
 
-    def _get_client(self, api_key: str, api_secret: str):
+    def _get_client(self, api_key: str | None = None, api_secret: str | None = None):
         """Create krakenex API client.
 
         :param api_key: Kraken API key
@@ -20,7 +22,7 @@ class Kraken:
         :return: krakenex API client
         :rtype: krakenex.API
         """
-        return krakenex.API(key=api_key, secret=api_secret)
+        return krakenex.API(key=api_key or "", secret=api_secret or "")
 
     def _call(self, private: bool, method: str, payload: Payload | None = None):
         """Calls public and private krakenAPI using krakenex package
@@ -49,7 +51,7 @@ class Kraken:
     def get_status(self):
         """
         KrakenAPI:
-            [Private][Method => SystemStatus]
+            [Public][Method => SystemStatus]
         description:
             It provides the server status or availability.
         """
