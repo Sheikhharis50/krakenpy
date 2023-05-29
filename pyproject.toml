@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "krakenpy"
-version = "0.1.2"
+version = "0.1.3"
 description = "krakenpy is tool in which we integrated kraken crypto exchange API"
 authors = ["Sheikh Haris Zahid"]
 readme = "README.md"

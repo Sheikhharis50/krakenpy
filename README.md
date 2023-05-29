@@ -25,8 +25,11 @@ if __name__ == "__main__":
         api_secret="KRAKEN_API_SECRET",
     )
 
-    # Returns the Kraken server status.
-    print(kraken.get_status())
+    # Returns the User's account balance.
+    try:
+        print(kraken.get_balance())
+    except KrakenError as e:
+        print(e)
 
 ```
 

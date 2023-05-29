@@ -1,7 +1,7 @@
 from dataclasses import asdict, dataclass, field
 from typing import Literal
 
-from .utils import gen_nonce
+from .utils import gen_nonce, remove_none
 
 
 @dataclass
@@ -9,7 +9,7 @@ class Payload:
     nonce: int = field(init=False, default_factory=gen_nonce)
 
     def to_dict(self):
-        return asdict(self)
+        return remove_none(asdict(self), dict_only=True)
 
 
 TRADE_HISTORY_TYPES = Literal[
@@ -22,7 +22,7 @@ TRADE_HISTORY_TYPES = Literal[
 
 
 @dataclass
-class TradesHistory(Payload):
+class TradesHistoryPayload(Payload):
     trades: bool = field(default=True)
     type: TRADE_HISTORY_TYPES = field(default="all")
     start: int | None = field(default=None)
@@ -31,16 +31,37 @@ class TradesHistory(Payload):
     consolidate_taker: bool = field(default=True)
 
 
+LEDGER_TYPES = Literal[
+    "all",
+    "deposit",
+    "withdrawal",
+    "trade",
+    "margin",
+    "rollover",
+    "credit",
+    "transfer",
+    "settled",
+    "staking",
+    "sale",
+]
+
+
 @dataclass
-class QueryLedgers(Payload):
-    id: str | None = field(init=False, default=None)
-    trades: bool = field(default=True)
-
-    def add_ids(self, *ledger_ids):
-        ids = self.id.split(",") if self.id else []
-        self.id = ",".join(ids + list(ledger_ids))
+class LedgersPayload(Payload):
+    asset: str = field(default="all")
+    aclass: str = field(default="currency")
+    type: LEDGER_TYPES = field(default="all")
+    start: int | None = field(default=None)
+    end: int | None = field(default=None)
+    ofs: int | None = field(default=None)
+    without_count: bool | None = field(default=None)
 
 
 @dataclass
-class AccountBalance(Payload):
+class AccountBalancePayload(Payload):
     ...
+
+
+@dataclass
+class TradeBalancePayload(Payload):
+    asset: str = field(default="ZUSD")
